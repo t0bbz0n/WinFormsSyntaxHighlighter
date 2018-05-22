@@ -33,10 +33,7 @@ namespace WinFormsSyntaxHighlighter
 
         public SyntaxHighlighter(RichTextBox richTextBox)
         {
-            if (richTextBox == null)
-                throw new ArgumentNullException("richTextBox");
-
-            _richTextBox = richTextBox;
+            _richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
 
             _fontSizeFactor = Convert.ToInt32(_richTextBox.Font.Size * 2);
             _fontName = _richTextBox.Font.Name;
@@ -62,11 +59,11 @@ namespace WinFormsSyntaxHighlighter
         public void AddPattern(string name, PatternDefinition patternDefinition, SyntaxStyle syntaxStyle)
         {
             if (patternDefinition == null)
-                throw new ArgumentNullException("patternDefinition");
+                throw new ArgumentNullException(nameof(patternDefinition));
             if (syntaxStyle == null)
-                throw new ArgumentNullException("syntaxStyle");
+                throw new ArgumentNullException(nameof(syntaxStyle));
             if (String.IsNullOrEmpty(name))
-                throw new ArgumentException("name must not be null or empty", "name");
+                throw new ArgumentException("name must not be null or empty", nameof(name));
 
             var existingPatternStyle = FindPatternStyle(name);
 

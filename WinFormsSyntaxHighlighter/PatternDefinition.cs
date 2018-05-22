@@ -6,23 +6,17 @@ namespace WinFormsSyntaxHighlighter
 {
     public class PatternDefinition
     {
-        private readonly Regex _regex;
-        private ExpressionType _expressionType = ExpressionType.Identifier;
-        private readonly bool _isCaseSensitive = true;
-
         public PatternDefinition(Regex regularExpression)
         {
-            if (regularExpression == null)
-                throw new ArgumentNullException("regularExpression");
-            _regex = regularExpression;
+            Regex = regularExpression ?? throw new ArgumentNullException(nameof(regularExpression));
         }
 
         public PatternDefinition(string regexPattern)
         {
-            if (String.IsNullOrEmpty(regexPattern))
-                throw new ArgumentException("regex pattern must not be null or empty", "regexPattern");
+            if (string.IsNullOrEmpty(regexPattern))
+                throw new ArgumentException("regex pattern must not be null or empty", nameof(regexPattern));
 
-            _regex = new Regex(regexPattern, RegexOptions.Compiled);
+            Regex = new Regex(regexPattern, RegexOptions.Compiled);
         }
 
         public PatternDefinition(params string[] tokens)
@@ -38,9 +32,9 @@ namespace WinFormsSyntaxHighlighter
         internal PatternDefinition(bool caseSensitive, IEnumerable<string> tokens)
         {
             if (tokens == null)
-                throw new ArgumentNullException("tokens");
+                throw new ArgumentNullException(nameof(tokens));
 
-            _isCaseSensitive = caseSensitive;
+            IsCaseSensitive = caseSensitive;
 
             var regexTokens = new List<string>();
 
@@ -61,23 +55,13 @@ namespace WinFormsSyntaxHighlighter
             var regexOptions = RegexOptions.Compiled;
             if (!caseSensitive)
                 regexOptions = regexOptions | RegexOptions.IgnoreCase;
-            _regex = new Regex(pattern, regexOptions);
+            Regex = new Regex(pattern, regexOptions);
         }
 
-        internal ExpressionType ExpressionType 
-        {
-            get { return _expressionType; }
-            set { _expressionType = value; }
-        }
+        internal ExpressionType ExpressionType { get; set; } = ExpressionType.Identifier;
 
-        internal bool IsCaseSensitive 
-        {
-            get { return _isCaseSensitive; }
-        }
+        internal bool IsCaseSensitive { get; } = true;
 
-        internal Regex Regex
-        {
-            get { return _regex; }
-        }
+        internal Regex Regex { get; }
     }
 }

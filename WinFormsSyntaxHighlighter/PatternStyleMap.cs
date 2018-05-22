@@ -10,16 +10,9 @@ namespace WinFormsSyntaxHighlighter
 
         public PatternStyleMap(string name, PatternDefinition patternDefinition, SyntaxStyle syntaxStyle)
         {
-            if (patternDefinition == null)
-                throw new ArgumentNullException("patternDefinition");
-            if (syntaxStyle == null)
-                throw new ArgumentNullException("syntaxStyle");
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentException("name must not be null or empty", "name");
-
-            Name = name;
-            PatternDefinition = patternDefinition;
-            SyntaxStyle = syntaxStyle;
+            Name = !string.IsNullOrEmpty(name) ? name : throw new ArgumentException("name must not be null or empty", nameof(name));
+            PatternDefinition = patternDefinition ?? throw new ArgumentNullException(nameof(patternDefinition));
+            SyntaxStyle = syntaxStyle ?? throw new ArgumentNullException("syntaxStyle");
         }
     }
 }

@@ -10,14 +10,9 @@ namespace WinFormsSyntaxHighlighter
 
         public Expression(string content, ExpressionType type, string group)
         {
-            if (content == null)
-                throw new ArgumentNullException("content");
-            if (group == null)
-                throw new ArgumentNullException("group");
-
             Type = type;
-            Content = content;
-            Group = group;
+            Content = content ?? throw new ArgumentNullException(nameof(content));
+            Group = group ?? throw new ArgumentNullException(nameof(group));
         }
 
         public Expression(string content, ExpressionType type)
@@ -26,11 +21,8 @@ namespace WinFormsSyntaxHighlighter
         }
 
         public override string ToString()
-        {
-            if (Type == ExpressionType.Newline)
-                return String.Format("({0})", Type);
-
-            return String.Format("({0} --> {1}{2})", Content, Type, Group.Length > 0 ? " --> " + Group : String.Empty);
-        }
+        => Type == ExpressionType.Newline 
+            ? string.Format("({0})", Type)
+            : string.Format("({0} --> {1}{2})", Content, Type, Group.Length > 0? " --> " + Group : String.Empty);
     }
 }

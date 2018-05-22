@@ -10,13 +10,8 @@ namespace WinFormsSyntaxHighlighter
 
         public StyleGroupPair(SyntaxStyle syntaxStyle, string groupName)
         {
-            if (syntaxStyle == null)
-                throw new ArgumentNullException("syntaxStyle");
-            if (groupName == null)
-                throw new ArgumentNullException("groupName");
-
-            SyntaxStyle = syntaxStyle;
-            GroupName = groupName;
+            SyntaxStyle = syntaxStyle ?? throw new ArgumentNullException(nameof(syntaxStyle));
+            GroupName = groupName ?? throw new ArgumentNullException(nameof(groupName));
         }
     }
 }
